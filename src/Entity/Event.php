@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
@@ -24,6 +26,12 @@ class Event
 
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
+
+    /**
+     * @var Collection<int, Booking>
+     */
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'eventId')]
+    private Collection $bookings;
 
     public function getId(): int
     {
@@ -81,5 +89,36 @@ class Event
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->bookings = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): static
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setEventId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): static
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getEventId() === $this) {
+                $booking->setEventId(null);
+            }
+        }
+
+        return $this;
     }
 }
