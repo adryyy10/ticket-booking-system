@@ -11,26 +11,26 @@ class Event
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column]
-    private ?int $totalSeats = null;
+    private int $totalSeats;
 
     #[ORM\Column]
-    private ?int $availableSeats = null;
+    private int $availableSeats;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -42,7 +42,7 @@ class Event
         return $this;
     }
 
-    public function getTotalSeats(): ?int
+    public function getTotalSeats(): int
     {
         return $this->totalSeats;
     }
@@ -54,7 +54,7 @@ class Event
         return $this;
     }
 
-    public function getAvailableSeats(): ?int
+    public function getAvailableSeats(): int
     {
         return $this->availableSeats;
     }
@@ -66,7 +66,7 @@ class Event
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -81,6 +81,5 @@ class Event
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->availableSeats = $this->totalSeats;
     }
 }
