@@ -16,6 +16,10 @@ class BookingPostControllerTest extends WebTestCase
         ]));
 
         $this->assertSame(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', '/event/1');
+        $content = $client->getResponse()->getContent();
+        $this->assertStringContainsString('"availableSeats":98', $content); // Total seats - numTickets
     }
 
     public function testPostBookingNotEnoughSeats(): void

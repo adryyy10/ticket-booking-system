@@ -44,7 +44,7 @@ class BookingPostController extends AbstractController
         $booking->setNumTickets($createBookingDto->getNumTickets());
 
         // Deduct the number of tickets from the available seats
-        //$event->setAvailableSeats($event->getAvailableSeats() - $createBookingDto->getNumTickets());
+        $event->setAvailableSeats($event->getAvailableSeats() - $createBookingDto->getNumTickets());
 
         $bookingPostRepository->save($booking);
 
