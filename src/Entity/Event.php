@@ -33,6 +33,12 @@ class Event
     #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'eventId')]
     private Collection $bookings;
 
+    /**
+     * @var Collection<int, Ticket>
+     */
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'eventId')]
+    private Collection $tickets;
+
     public function getId(): int
     {
         return $this->id;
@@ -90,6 +96,7 @@ class Event
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->bookings = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     public function addBooking(Booking $booking): static
