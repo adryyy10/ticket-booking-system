@@ -17,4 +17,27 @@ class BookingPostControllerTest extends WebTestCase
 
         $this->assertSame(201, $client->getResponse()->getStatusCode());
     }
+
+    public function testPostBookingNotEnoughSeats(): void
+    {
+        $client = static::createClient();
+
+        $client->request('POST', '/event/1/booking', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+            'userId' => 1,
+            'numTickets' => 1000,
+        ]));
+
+        $this->assertSame(500, $client->getResponse()->getStatusCode());
+    }
+
+    public function testInvalidData(): void
+    {
+        $client = static::createClient();
+
+        $client->request('POST', '/event/1/booking', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+            'userId' => 1,
+        ]));
+
+        $this->assertSame(422, $client->getResponse()->getStatusCode());
+    }
 }

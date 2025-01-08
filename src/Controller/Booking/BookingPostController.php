@@ -31,16 +31,22 @@ class BookingPostController extends AbstractController
         $user = $entityManager->getRepository(User::class)->find($createBookingDto->getUserId());
         Assert::isInstanceOf($user, User::class);
 
-        // TODO: check if numTickets are > than $event->getAvailableSeats()
+        if ($event->getAvailableSeats() < $createBookingDto->getNumTickets()) {
+            return $this->json(
+                ['message' => 'Not enough available seats'],
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
 
         $booking = new Booking();
         $booking->setUserId($user);
         $booking->setEventId($event);
         $booking->setNumTickets($createBookingDto->getNumTickets());
 
-        $bookingPostRepository->save($booking);
+        // Deduct the number of tickets from the available seats
+        //$event->setAvailableSeats($event->getAvailableSeats() - $createBookingDto->getNumTickets());
 
-        // TODO: Deduct $event->setAvailableSeats = $event->getAvailableSeats() - $createBookingDto->getNumTickets()
+        $bookingPostRepository->save($booking);
 
         return $this->json(
             ['id' => $booking->getId(), 'message' => 'Booking created successfully'],
