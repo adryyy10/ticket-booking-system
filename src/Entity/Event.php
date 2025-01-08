@@ -92,14 +92,6 @@ class Event
         $this->bookings = new ArrayCollection();
     }
 
-    /**
-     * @return Collection<int, Booking>
-     */
-    public function getBookings(): Collection
-    {
-        return $this->bookings;
-    }
-
     public function addBooking(Booking $booking): static
     {
         if (!$this->bookings->contains($booking)) {

@@ -6,7 +6,7 @@ use App\Entity\Booking;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Interface\Booking\BookingPostRepositoryInterface;
-use App\Model\CreateBookingDto;
+use App\Dto\Booking\CreateBookingDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -4,7 +4,7 @@ namespace App\Controller\Event;
 
 use App\Entity\Event;
 use App\Interface\Event\EventPostRepositoryInterface;
-use App\Model\CreateEventDto;
+use App\Dto\Event\CreateEventDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
