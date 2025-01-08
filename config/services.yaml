@@ -24,6 +24,10 @@ services:
     App\Repository\EventRepository:
         arguments:
             $registry: '@doctrine'
+    App\EventSubscriber\TicketCreationSubscriber:
+        autowire: true
+        autoconfigure: true
+        tags: ['kernel.event_subscriber']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
