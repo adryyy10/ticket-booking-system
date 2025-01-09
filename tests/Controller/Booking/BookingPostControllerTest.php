@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller\Booking;
 
+use App\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BookingPostControllerTest extends WebTestCase
@@ -12,23 +13,25 @@ class BookingPostControllerTest extends WebTestCase
 
         $client->request('POST', '/event/1/booking', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'userId' => 1,
-            'numTickets' => 2,
+            'tickets' => [43],
         ]));
 
         $this->assertSame(201, $client->getResponse()->getStatusCode());
 
         $client->request('GET', '/event/1');
         $content = $client->getResponse()->getContent();
-        $this->assertStringContainsString('"availableSeats":98', $content); // Total seats - numTickets
+        $this->assertStringContainsString('"availableSeats":99', $content); // Total seats - numTickets
     }
 
     public function testPostBookingNotEnoughSeats(): void
     {
         $client = static::createClient();
 
-        $client->request('POST', '/event/1/booking', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $ticket = $this->getContainer()->get('doctrine')->getRepository(Ticket::class)->find(1);
+
+        $client->request('POST', '/event/2/booking', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'userId' => 1,
-            'numTickets' => 1000,
+            'tickets' => [43],
         ]));
 
         $this->assertSame(500, $client->getResponse()->getStatusCode());

@@ -18,10 +18,10 @@ class Ticket
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
-    private Event $eventId;
+    private Event $event;
 
-    #[ORM\ManyToOne]
-    private ?Booking $bookingId = null;
+    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    private ?Booking $booking = null;
 
     public function getId(): int
     {
@@ -40,26 +40,26 @@ class Ticket
         return $this;
     }
 
-    public function getEventId(): Event
+    public function getEvent(): Event
     {
-        return $this->eventId;
+        return $this->event;
     }
 
-    public function setEventId(Event $eventId): static
+    public function setEvent(Event $event): static
     {
-        $this->eventId = $eventId;
+        $this->event = $event;
 
         return $this;
     }
 
-    public function getBookingId(): ?Booking
+    public function getBooking(): ?Booking
     {
-        return $this->bookingId;
+        return $this->booking;
     }
 
-    public function setBookingId(?Booking $bookingId): static
+    public function setBooking(?Booking $booking): static
     {
-        $this->bookingId = $bookingId;
+        $this->booking = $booking;
 
         return $this;
     }
