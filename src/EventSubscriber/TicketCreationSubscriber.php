@@ -28,7 +28,7 @@ class TicketCreationSubscriber implements EventSubscriberInterface
         for ($i = 0; $i < $totalSeats; $i++) {
             $ticket = new Ticket();
             $ticket->setSeat($i + 1);
-            $ticket->setEventId($event->getEvent());
+            $ticket->setEvent($event->getEvent());
             $this->ticketPostRepository->save($ticket);
         }
     }

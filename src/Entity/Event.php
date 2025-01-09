@@ -30,13 +30,13 @@ class Event
     /**
      * @var Collection<int, Booking>
      */
-    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'eventId')]
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'event')]
     private Collection $bookings;
 
     /**
      * @var Collection<int, Ticket>
      */
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'eventId')]
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'event')]
     private Collection $tickets;
 
     public function getId(): int
@@ -103,7 +103,7 @@ class Event
     {
         if (!$this->bookings->contains($booking)) {
             $this->bookings->add($booking);
-            $booking->setEventId($this);
+            $booking->setEvent($this);
         }
 
         return $this;
@@ -113,8 +113,8 @@ class Event
     {
         if ($this->bookings->removeElement($booking)) {
             // set the owning side to null (unless already changed)
-            if ($booking->getEventId() === $this) {
-                $booking->setEventId(null);
+            if ($booking->getEvent() === $this) {
+                $booking->setEvent(null);
             }
         }
 
