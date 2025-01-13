@@ -23,6 +23,17 @@ class BookingPostControllerTest extends WebTestCase
         $this->assertStringContainsString('"availableSeats":99', $content); // Total seats - numTickets
     }
 
+    public function testInvalidData(): void
+    {
+        $client = static::createClient();
+
+        $client->request('POST', '/event/1/booking', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+            'userId' => 1,
+        ]));
+
+        $this->assertSame(422, $client->getResponse()->getStatusCode());
+    }
+
     public function testPostBookingNotEnoughSeats(): void
     {
         $client = static::createClient();
@@ -37,14 +48,20 @@ class BookingPostControllerTest extends WebTestCase
         $this->assertSame(500, $client->getResponse()->getStatusCode());
     }
 
-    public function testInvalidData(): void
+    public function testPostBookingAlreadyBooked(): void
     {
         $client = static::createClient();
 
         $client->request('POST', '/event/1/booking', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
             'userId' => 1,
+            'tickets' => [44],
         ]));
+        $this->assertSame(201, $client->getResponse()->getStatusCode());
 
-        $this->assertSame(422, $client->getResponse()->getStatusCode());
+        $client->request('POST', '/event/1/booking', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+            'userId' => 1,
+            'tickets' => [44],
+        ]));
+        $this->assertSame(500, $client->getResponse()->getStatusCode());
     }
 }
