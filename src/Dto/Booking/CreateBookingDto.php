@@ -2,9 +2,6 @@
 
 namespace App\Dto\Booking;
 
-use App\Entity\Ticket;
-use Doctrine\Common\Collections\Collection;
-
 class CreateBookingDto
 {
 

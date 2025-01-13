@@ -45,7 +45,7 @@ class BookingPostControllerTest extends WebTestCase
             'tickets' => [43],
         ]));
 
-        $this->assertSame(500, $client->getResponse()->getStatusCode());
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
     }
 
     public function testPostBookingAlreadyBooked(): void
@@ -62,6 +62,6 @@ class BookingPostControllerTest extends WebTestCase
             'userId' => 1,
             'tickets' => [44],
         ]));
-        $this->assertSame(500, $client->getResponse()->getStatusCode());
+        $this->assertSame(409, $client->getResponse()->getStatusCode());
     }
 }
